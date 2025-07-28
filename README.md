@@ -1,2 +1,2 @@
-# risc-v-chip-workshop-projects
+# vsdRiscvSoc
 All the projects/assignments done as part of RISC-V chip to tapeout workshop
