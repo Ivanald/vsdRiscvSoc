@@ -30,11 +30,13 @@ Task1 Output: ![images/task1/1UniquenessTest.png](task1/images/1UniquenessTest.p
 
 # Installation of RISC-V toolchain, spike and pk. 
 
+OS used: Alma Linux
+
 Follow the below steps for installing RICV-V Toolchain, spike and pk for **Alma Linux Operating System**.
 
 ## Step1: Install riscv toolchain
 ### Install xpm packages: To ensure all the required libraries are installed. 
- xpm packages, abbreviated as xPacks, are versatile, language-neutral software packages coming from //link// https://xpack-dev-tools.github.io. xPack GNU RISC-V Embedded GCC packages help in easy installation without worrying about dependent libraries. These packages will automatically update the libraries as well when the system updates happen. More details on this can be found in the above link. 
+XPM packages, abbreviated as xPacks, are versatile, language-neutral software packages coming from  [https://xpack-dev-tools.github.io](https://xpack-dev-tools.github.io). xPack GNU RISC-V Embedded GCC packages help in easy installation without worrying about dependent libraries. These packages will automatically update the libraries as well when the system updates happen. More details on this can be found in the above link. 
  
 #### Prerequisites for xpm 
 The only prerequisite for xPack is a recent version of Node.js (>=18.0.0), as some dependencies require new features. So first checking the version available. 
@@ -46,7 +48,7 @@ node --version
  ![task1/images/2NodeJsVersion.png](task1/images/2NodeJsVersion.png)
 
 
-To get the latest version run the sript given in the same above website (also attached in the folder [task1/files/install-nvm-node-npm-xpm.sh](task1/files/install-nvm-node-npm-xpm.sh). This will also install latest npm and xpm packages. 
+To get the latest version run the script given in the same above website (also attached in the folder [task1/files/install-nvm-node-npm-xpm.sh](task1/files/install-nvm-node-npm-xpm.sh). This will also install latest npm and xpm packages. 
 ```bash
 mkdir -pv "${HOME}/Downloads/"
 curl --output "${HOME}/Downloads/install-nvm-node-npm-xpm.sh" https://raw.githubusercontent.com/xpack/assets/master/scripts/install-nvm-node-npm-xpm.sh
@@ -103,7 +105,7 @@ ls -l xpacks/.bin
  ![task1/images/8FilesDownloadedFromRiscvToolchain.png](task1/images/8FilesDownloadedFromRiscvToolchain.png)
 
 ### Add to path 
-For the GCC and other binaries to be available without always calling using thier path we need to add them to your shell path. The following command adds to the path:
+For the GCC and other binaries to be available without always calling using their path we need to add them to your shell path. The following command adds to the path:
 ```bash
 export PATH=/home/jahnavi/riscv_toolchain/xpacks/.bin:$PATH
 ```
@@ -139,7 +141,7 @@ Adding the device tree complier dependency also.
 sudo dnf install -y dtc
 ```
 
-I had already installed DTC during my first trial of installation hence the terminal will show as it is already installed. 
+*I had already installed DTC during my first trial of this entire installation process hence the terminal will show as it is already installed.*
 
 ![task1/images/12DTCInstall.png](task1/images/12DTCInstall.png)
 
@@ -153,7 +155,7 @@ cd riscv-isa-sim
 mkdir build
 cd build
 ../configure --prefix=/home/jahnavi/riscv_toolchain/spike
-make
+make -j$(nproc)
 make install
 ```
 
@@ -176,6 +178,12 @@ which spike
 ```
 ![task1/images/15SanityCheckForSpike.png](task1/images/15SanityCheckForSpike.png)
 
+Version check and help menu: Spike --version given in the pdf is an invalid command, however no command to find the version was found.
+```bash
+spike --version || spike -h
+```
+![task1/images/24SpikeVersionHelp.png](task1/images/24SpikeVersionHelp.png)
+
 ## Step4: Install pk and add to path
 Proxy kernal or pk is the kind of operating system which enables the executions in a system without an operating system. Here since we are working on RISC-V architecture, we need to install pk which will help us to execute the programs in the system. 
 The following is the installation commands:
@@ -187,7 +195,7 @@ cd riscv-pk
 mkdir build
 cd build
 ../configure --prefix=/home/jahnavi/riscv_toolchain/pk --host=riscv-none-elf CC="riscv-none-elf-gcc -march=rv64ima_zicsr_zifencei -mabi=lp64 -DMEM_START=0x80000000" CXX="riscv-none-elf-g++ -march=rv64ima_zicsr_zifencei -mabi=lp64 -DMEM_START=0x80000000" LD="riscv-none-elf-ld"
-make
+make -j$(nproc)
 make install
 ```
 ![task1/images/16PKInstallationCommands.png](task1/images/16PKInstallationCommands.png)
@@ -222,7 +230,7 @@ The final .bashrc file will look like this:
 ![task1/images/20BashrcFile.png](task1/images/20BashrcFile.png)
 
 The final folder riscv_toolchain:
-![task1/files/21FinalFolderRiscvToolchain.png](task1/files/21FinalFolderRiscvToolchain.png)
+![task1/images/21FinalFolderRiscvToolchain.png](task1/images/21FinalFolderRiscvToolchain.png)
 
 
 # Uniqueness Test
