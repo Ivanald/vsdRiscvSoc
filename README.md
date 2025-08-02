@@ -8,7 +8,7 @@ All the projects/assignments done as part of India RISC-V Chip Tapeout workshop 
 To Install RICV-V Toolchain, install spike and pk, and do a uniqueness test.
 
 ## File Used for Uniqueness Test: 
-unique_test.c: [task1/unique_test.c](task1/unique_test.c)
+unique_test.c: [task1/files/unique_test.c](task1/files/unique_test.c)
 
 ## Command used for compliation: 
 ```bash
@@ -32,8 +32,8 @@ Task1 Output: ![images/task1/1UniquenessTest.png](task1/images/1UniquenessTest.p
 
 Follow the below steps for installing RICV-V Toolchain, spike and pk for **Alma Linux Operating System**.
 
-##Step1: Install riscv toolchain
-###Install xpm packages: To ensure all the required libraries are installed. 
+## Step1: Install riscv toolchain
+### Install xpm packages: To ensure all the required libraries are installed. 
  xpm packages, abbreviated as xPacks, are versatile, language-neutral software packages coming from //link// https://xpack-dev-tools.github.io. xPack GNU RISC-V Embedded GCC packages help in easy installation without worrying about dependent libraries. These packages will automatically update the libraries as well when the system updates happen. More details on this can be found in the above link. 
  
 #### Prerequisites for xpm 
@@ -46,7 +46,7 @@ node --version
  ![task1/images/2NodeJsVersion.png](task1/images/2NodeJsVersion.png)
 
 
-To get the latest version run the sript given in the same above website (also attached in the folder [task1/files/install-nvm-node-npm-xpm.sh](task1/install-nvm-node-npm-xpm.sh). This will also install latest npm and xpm packages. 
+To get the latest version run the sript given in the same above website (also attached in the folder [task1/files/install-nvm-node-npm-xpm.sh](task1/files/install-nvm-node-npm-xpm.sh). This will also install latest npm and xpm packages. 
 ```bash
 mkdir -pv "${HOME}/Downloads/"
 curl --output "${HOME}/Downloads/install-nvm-node-npm-xpm.sh" https://raw.githubusercontent.com/xpack/assets/master/scripts/install-nvm-node-npm-xpm.sh
@@ -71,7 +71,7 @@ xpm --version
  ![task1/images/5XpmInstallCheck.png](task1/images/5XpmInstallCheck.png)
 
 
-###Install riscv-none-elf-gcc (riscv toolchain) 
+### Install riscv-none-elf-gcc (riscv toolchain) 
 
 This is a prebuilt toolchain taken from https://www.npmjs.com/package/@xpack-dev-tools/riscv-none-elf-gcc. To download it, initialize xpm and download the riscv-none-elf-gcc
  
@@ -110,42 +110,42 @@ ls -l xpacks/.bin
 
 
 
-##Step2: Install Device Tree Compiler (DTC)
+## Step2: Install Device Tree Compiler (DTC)
 
 Adding the device tree complier dependency also. 
 ```bash
 
 ```
-##Step3: Install spike and add to path
+## Step3: Install spike and add to path
 Spike is an open-source RISC-V Instruction Set Simulator (ISS) which is used to emulate the RISC-V programs without the requirement of physical hardware. 
 
-##Step4: Install pk and add to path
+## Step4: Install pk and add to path
 
 ##Step5: Sanity checks
 
-#Uniqueness Test
+# Uniqueness Test
 
 A program to give the 64‐bit FNV‐1a hash of username and hostname. 
 
-##Program: 
+## Program: 
 
 
-##Compilation command:
+## Compilation command:
 
-##Running on spike with pk
-Here, we were getting an which was resolved when you are giving the pk path
+## Running on spike with pk
+Here, we were getting an error which was resolved when you are giving the pk path
 
 Command:
 
 Output:
 
-#Errors encountered during the installation 
+# Errors encountered during the installation 
 
-##Building from source rather than pk. 
+## Building from source rather than pk. 
 
-##Path error for pk
+## Path error for pk
 
-##Compilation error. 
+## Compilation error. 
 
 
 
