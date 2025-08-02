@@ -1,6 +1,6 @@
 # vsdRiscvSoc
 All the projects/assignments done as part of India RISC-V Chip Tapeout workshop conducted by VSD. 
-#Index
+
 
 # Task1 - RISC-V Toolchain Setup Tasks & Uniqueness Test
 
@@ -178,11 +178,11 @@ which spike
 ```
 ![task1/images/15SanityCheckForSpike.png](task1/images/15SanityCheckForSpike.png)
 
-Version check and help menu: Spike --version given in the pdf is an invalid command, however no command to find the version was found.
+Spike help menu: 
 ```bash
-spike --version || spike -h
+spike -h
 ```
-![task1/images/24SpikeVersionHelp.png](task1/images/24SpikeVersionHelp.png)
+![task1/images/24SpikeVersionHelp.png](task1/images/24SpikeHelp.png)
 
 ## Step4: Install pk and add to path
 Proxy kernal or pk is the kind of operating system which enables the executions in a system without an operating system. Here since we are working on RISC-V architecture, we need to install pk which will help us to execute the programs in the system. 
@@ -268,12 +268,52 @@ GCC_VLEN: 6
 
 # Errors encountered during the installation 
 
-## Building from source rather than pk. 
-![task1/images/](task1/images/)
-## Compilation error. 
-![task1/images/](task1/images/)
-## Path error for pk
-![task1/images/](task1/images/)
+## Building directly from source instead of prebuilt file
+This is a time consuming process, also too many unresolvable errors occured. one of them is given below: 
+```bash
+git submodule update --init --recursive
 
+error: Server does not allow request for unadvertised object 935a51f3c66ece357ce0d18f3aa3627a13cef7d5
+
+fatal: Fetched in submodule path 'dejagnu', but it did not contain 935a51f3c66ece357ce0d18f3aa3627a13cef7d5. Direct fetching of that commit failed. 
+```
+I tried to resolve the errors for the longest time at last switched to prebuilt tools, which are comparitively easy to install. Also I was able to find the latest version in the prebuilt tools. The latest version automatically resolves compatibility issues with spike and pk that might later occur during execution. 
+
+## Error during installation of pk
+```bash
+which pk
+/usr/bin/which: no pk in (/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/riscv64-unknown-elf/bin:/home/jahnavi/riscv_toolchain/pk/bin:/home/jahnavi/riscv_toolchain/spike/bin:/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/bin:/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/riscv64-unknown-elf/bin:/home/jahnavi/riscv_toolchain/pk/bin:/home/jahnavi/riscv_toolchain/spike/bin:/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/bin:/home/jahnavi/riscv_toolchain/pk/bin:/home/jahnavi/riscv_toolchain/spike/bin:/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/bin:/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/bin:/home/jahnavi/riscv_toolchain/spike/bin:/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/bin:/home/jahnavi/.local/bin:/home/jahnavi/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/var/lib/snapd/snap/bin)
+```
+The bin folder along with include and library folder was actually in pk/riscv64-unknown-elf/ and the search was happening in pk/bin. Therefore just change in path name while exporting the path will resolve the issue.
+
+*Note: this error occurred when I am initailly trying to install  https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6.tar.gz for Alma Linux. However, I switched to xpack for getting the latest version, where I prevented this error from happening by using the exact export path*
+
+## Path error for pk
+```bash
+spike pk ./unique_test
+terminate called after throwing an instance of 'std::runtime_error'
+  what():  could not open pk; searched paths:
+	. (current directory)
+	/home/jahnavi/riscv_toolchain/spike/riscv64-unknown-elf/bin/ (based on configured --prefix and --with-target)
+```
+The search for pk is happening only in the current directory where pk is not there, therefore add pk path while executing. 
+```bash
+spike /home/jahnavi/riscv_toolchain/pk/riscv-none-elf/bin/pk ./unique_test
+```
+
+![task1/images/Error_CompilationPKPath.png](task1/images/Error_CompilationPKPath.png)
+
+## Compilation Error
+```bash
+[jahnavi@vlsilab riscv_toolchain]$ riscv-none-elf-gcc -O2 -Wall -march=rv64ima -mabi=lp64 -DUSERNAME=\"Jahnavi\" -DHOSTNAME=\"VLSILab\" unique_test.c -o unique_test
+cc1: fatal error: unique_test.c: No such file or directory
+compilation terminated.
+```
+The compilation should be done by opening the terminal in the location where the c file is stored. Any other location will give this error. 
+
+![task1/images/Error_CFileNotFound.png](task1/images/Error_CFileNotFound.png)
+
+Error resolved by opening the right location
+![task1/images/Error_Resolved.png](task1/images/Error_Resolved.png)
 
 
