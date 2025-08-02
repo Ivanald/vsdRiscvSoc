@@ -60,6 +60,7 @@ bash "${HOME}/Downloads/install-nvm-node-npm-xpm.sh"
 exit
 ```
 The last line of the script will give the version: 
+
  ![task1/images/4NodeInstallLastline.png](task1/images/4NodeInstallLastline.png)
 
 You can exit this terminal and check in a new terminal whether xpm has been installed. 
@@ -73,7 +74,7 @@ xpm --version
 
 ### Install riscv-none-elf-gcc (riscv toolchain) 
 
-This is a prebuilt toolchain taken from https://www.npmjs.com/package/@xpack-dev-tools/riscv-none-elf-gcc. To download it, initialize xpm and download the riscv-none-elf-gcc
+This is a prebuilt toolchain taken from [https://www.npmjs.com/package/@xpack-dev-tools/riscv-none-elf-gcc](https://www.npmjs.com/package/@xpack-dev-tools/riscv-none-elf-gcc). To download it, initialize xpm and download the riscv-none-elf-gcc
  
 We need to ensure that .json file is available in your project folder for xpm to work. So make one folder for your project and initialize xpm there
 
@@ -101,51 +102,170 @@ ls -l xpacks/.bin
 ```
  ![task1/images/8FilesDownloadedFromRiscvToolchain.png](task1/images/8FilesDownloadedFromRiscvToolchain.png)
 
+### Add to path 
+For the GCC and other binaries to be available without always calling using thier path we need to add them to your shell path. The following command adds to the path:
+```bash
+export PATH=/home/jahnavi/riscv_toolchain/xpacks/.bin:$PATH
+```
+But this will only be available in the current shell. Once you close and open the terminal this will go away. Therefore we need to save it to *~/.bashrc* file. (Here ~/ indicates home path) The following is the command for it:
+```bash
+echo 'export PATH=/home/jahnavi/riscv_toolchain/xpacks/.bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+```
+ ![task1/images/9AddingRISCVPath.png](task1/images/9AddingRISCVPath.png)
+ 
+ 
+**Riscv Installation Completed.**
 
-**Riscv Version Details**
+Sanity Check:
+
+```bash
+which riscv-none-elf-gcc
+```
+![task1/images/10RiscVSanityCheck.png](task1/images/10RiscVSanityCheck.png)
+
+Checking version:
+
 ```bash
 ~/.local/xPacks/riscv-none-elf-gcc/xpack-riscv-none-elf-gcc-14.2.0-3/bin/riscv-none-elf-gcc --version
 ```
-![task1/images/9CheckingRiscvToolchainVersion.png](task1/images/9CheckingRiscvToolchainVersion.png)
-
-
+![task1/images/11CheckingRiscvToolchainVersion.png](task1/images/11CheckingRiscvToolchainVersion.png)
 
 ## Step2: Install Device Tree Compiler (DTC)
 
 Adding the device tree complier dependency also. 
-```bash
 
+```bash
+sudo dnf install -y dtc
 ```
+
+I had already installed DTC during my first trial of installation hence the terminal will show as it is already installed. 
+
+![task1/images/12DTCInstall.png](task1/images/12DTCInstall.png)
+
 ## Step3: Install spike and add to path
-Spike is an open-source RISC-V Instruction Set Simulator (ISS) which is used to emulate the RISC-V programs without the requirement of physical hardware. 
+Spike is an open-source RISC-V Instruction Set Simulator (ISS) which is used to emulate the RISC-V programs without the requirement of physical hardware. The following commands are needed to be followed for installing spike:
+
+```bash
+cd ~/riscv_toolchain
+git clone https://github.com/riscv/riscv-isa-sim.git
+cd riscv-isa-sim
+mkdir build
+cd build
+../configure --prefix=/home/jahnavi/riscv_toolchain/spike
+make
+make install
+```
+
+![task1/images/13SpikeDownload.png](task1/images/13SpikeDownload.png) 
+
+*Since all these commands were exceuted together, screenshot could not be taken.*
+
+Similar to what we did for GCC we need to add the spike to path. The command is:
+
+```bash
+export PATH=/home/jahnavi/riscv_toolchain/spike/bin:$PATH
+echo 'export PATH=/home/jahnavi/riscv_toolchain/spike/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+```
+![task1/images/14AddingSpikeToPath.png](task1/images/14AddingSpikeToPath.png)
+
+Sanity check for spike:
+```bash
+which spike
+```
+![task1/images/15SanityCheckForSpike.png](task1/images/15SanityCheckForSpike.png)
 
 ## Step4: Install pk and add to path
+Proxy kernal or pk is the kind of operating system which enables the executions in a system without an operating system. Here since we are working on RISC-V architecture, we need to install pk which will help us to execute the programs in the system. 
+The following is the installation commands:
 
-##Step5: Sanity checks
+```bash
+cd ~/riscv_toolchain
+git clone https://github.com/riscv/riscv-pk
+cd riscv-pk
+mkdir build
+cd build
+../configure --prefix=/home/jahnavi/riscv_toolchain/pk --host=riscv-none-elf CC="riscv-none-elf-gcc -march=rv64ima_zicsr_zifencei -mabi=lp64 -DMEM_START=0x80000000" CXX="riscv-none-elf-g++ -march=rv64ima_zicsr_zifencei -mabi=lp64 -DMEM_START=0x80000000" LD="riscv-none-elf-ld"
+make
+make install
+```
+![task1/images/16PKInstallationCommands.png](task1/images/16PKInstallationCommands.png)
+
+Here also we need to add to path:
+
+```bash
+export PATH=/home/jahnavi/riscv_toolchain/pk/riscv-none-elf/bin:$PATH
+echo 'export PATH=/home/jahnavi/riscv_toolchain/pk/riscv-none-elf/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+```
+
+![task1/images/17AddingPKToPath.png](task1/images/17AddingPKToPath.png)
+
+Sanity check for pk:
+```bash
+which pk
+```
+![task1/images/18WhichPKCommand.png](task1/images/18WhichPKCommand.png)
+
+## Step5: Sanity checks
+Finally checking if everything is installed properly or not:
+```bash
+which riscv-none-elf-gcc
+which spike
+which pk
+```
+![task1/images/19SanityCheck.png](task1/images/19SanityCheck.png)
+
+The final .bashrc file will look like this:
+
+![task1/images/20BashrcFile.png](task1/images/20BashrcFile.png)
+
+The final folder riscv_toolchain:
+![task1/files/21FinalFolderRiscvToolchain.png](task1/files/21FinalFolderRiscvToolchain.png)
+
 
 # Uniqueness Test
 
 A program to give the 64‐bit FNV‐1a hash of username and hostname. 
 
 ## Program: 
+The .c program is made to take the username and hostname as input and give the hash value as output. 
 
+![task1/files/unique_test.c](task1/files/unique_test.c)
 
 ## Compilation command:
-
+```bash
+riscv-none-elf-gcc -O2 -Wall -march=rv64ima -mabi=lp64 -DUSERNAME=\"Jahnavi\" -DHOSTNAME=\"VLSILab\" unique_test.c -o unique_test
+```
+![task1/images/22CompailationCommand.png](task1/images/22CompailationCommand.png)
 ## Running on spike with pk
 Here, we were getting an error which was resolved when you are giving the pk path
 
 Command:
+```bash
+spike /home/jahnavi/riscv_toolchain/pk/riscv-none-elf/bin/pk ./unique_test
+```
+![task1/images/23RunningSpikeOnPK.png](task1/images/23RunningSpikeOnPK.png)
 
-Output:
+Output: 
+```
+RISC-V Uniqueness Check 
+User: Jahnavi
+Host: VLSILab
+UniqueID: 0x69b7e1cc91ae1a87
+GCC_VLEN: 6
+```
+![images/task1/1UniquenessTest.png](task1/images/1UniquenessTest.png)
 
 # Errors encountered during the installation 
 
 ## Building from source rather than pk. 
-
-## Path error for pk
-
+![task1/images/](task1/images/)
 ## Compilation error. 
+![task1/images/](task1/images/)
+## Path error for pk
+![task1/images/](task1/images/)
 
 
 
