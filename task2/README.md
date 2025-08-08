@@ -86,7 +86,7 @@ This will create the following file: ![factorial_main_objdump.txt](factorial_mai
 
 #### After executing all the above commands, the following files should be available in your folder:
 
-![factorial_z_images/factorial_FinalFilesAfterCompleteExecution.png](factorial_z_imagesfactorial_FinalFilesAfterCompleteExecution.png)
+![factorial_z_images/factorial_FinalFilesAfterCompleteExecution.png](factorial_z_images/factorial_FinalFilesAfterCompleteExecution.png)
 
 
 ### Max Array
@@ -226,4 +226,24 @@ This will create the following file: ![bubble_sort_main_objdump.txt](bubble_sort
 
 ![zFiles_in_final_folder.png](zFiles_in_final_folder.png)
 
+## Decoding the assembly code
 
+Basically trying to understand the assembly code instructions of RISC-V architecture. 
+
+For this take the instructions from the disassembly file (<*program name*>_objdump.txt) file of any program and take the instructions. 
+
+Convert the instruction hex vale to binary. And check the RISC-V datasheet: ![https://www.cs.sfu.ca/~ashriram/Courses/CS295/assets/notebooks/RISCV/RISCV_CARD.pdf](https://www.cs.sfu.ca/~ashriram/Courses/CS295/assets/notebooks/RISCV/RISCV_CARD.pdf) to decode the instruction. 
+
+ |No.|Instruction       |Opcode |rd  |rs1 |rs2 |funct3|funct7   |Binary         |Description    |
+ |:-:|:----------------:|:-----:|:--:|:--:|:--:|:----:|:------:|:--------------:|:------------:|
+ |1  |addi s0,sp,32     |0010011|x8  | x2 |---| 000  |--------|00000010000000010000010000010011|s0 = sp + 32 |
+ |2  |mv a4,a5          |0010011|x14 |x15 |---| 000  |--------|00000000000001111000011100010011|Psuedo Inst. Copy a5 to a4|
+ |3  |xor	a5,a4,a5      |0110011|x15 |x14 |x15 | 100  |00000000|00000000111101110100011110110011|a5 = a4 ˆ a5|
+ |4  |lw a5,-20(s0)     |0000011|x15 |x8  |---| 010  |--------|11111110110001000010011110000011|a5 = M[s0-20] |
+ |5  |sw a5,-24(s0)     |0100011|----|x8|x15| 010 |--------|11111110111101000010010000100011| M[s0-24] = a5|
+ |6  |jal 10ae4 <printf>|1101111|x1|---|---|---|--------|01011110000000000000000011101111| Jump to dest address (10ae4) where printf is located by adding immediate value (5E) to PC value (PC + 5E = 10ae4). Stores next inst. address in ra register |
+
+ ### Notes:
+ Each instruction has some type (like R, I, J etc) which is given in the start of the datasheet. Each type has one addressing format that needs to be used for decoding. 
+
+ The end of that document gives the actual register names
