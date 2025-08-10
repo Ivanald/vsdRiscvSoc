@@ -1,6 +1,34 @@
 # vsdRiscvSoc
 All the projects/assignments done as part of India RISC-V Chip Tapeout workshop conducted by VSD. 
 
+## Table of Contents
+
+* [Task1 - RISC-V Toolchain Setup Tasks & Uniqueness Test](#task1---risc-v-toolchain-setup-tasks--uniqueness-test)
+    * [End Goal](#end-goal)
+    * [File Used for Uniqueness Test](#file-used-for-uniqueness-test)
+    * [Command used for compliation](#command-used-for-compliation)
+    * [Output Received](#output-received)
+    * [Installation of RISC-V toolchain, spike and pk.](#installation-of-risc-v-toolchain-spike-and-pk)
+        * [Step1: Install riscv toolchain](#step1-install-riscv-toolchain)
+	    * [Step2: Install Device Tree Compiler (DTC)](#step2-install-device-tree-compiler-dtc)
+	    * [Step3: Install spike and add to path](#step3-install-spike-and-add-to-path)
+	    * [Step4: Install pk and add to path](#step4-install-pk-and-add-to-path)
+	    * [Step5: Sanity checks](#step5-sanity-checks)
+	* [Uniqueness Test](#uniqueness-test)
+	* [Errors encountered during the installation](#errors-encountered-during-the-installation)
+   * [Task 2 - Prove Your Local RISC-V Setup (Run, Disassemble,Decode)](task2/#task-2---prove-your-local-risc-v-setup-run-disassembledecode)
+   		* [End Goal](task2/#end-goal)
+		* [Spike Version used](task2/#spike-version-used)
+		* [Uniqueness mechanism](task2/#uniqueness-mechanism)
+		* [Programs implemented](task2/#programs-implemented)
+		    * [Factorial](task2/#factorial)
+		    * [Max Array](task2/#max-array)
+		    * [Bitops](task2/#bitops)
+		    * [Bubble sort](task2/#bubble-sort)
+			* [Final folder contents](task2/#after-executing-all-the-above-programs-your-final-folder-will-look-like-this)
+
+  
+
 
 # Task1 - RISC-V Toolchain Setup Tasks & Uniqueness Test
 
@@ -28,17 +56,17 @@ Task1 Output: ![images/task1/1UniquenessTest.png](task1/images/1UniquenessTest.p
 
 
 
-# Installation of RISC-V toolchain, spike and pk. 
+## Installation of RISC-V toolchain, spike and pk. 
 
 OS used: Alma Linux
 
 Follow the below steps for installing RICV-V Toolchain, spike and pk for **Alma Linux Operating System**.
 
-## Step1: Install riscv toolchain
-### Install xpm packages: To ensure all the required libraries are installed. 
+### Step1: Install riscv toolchain
+#### Install xpm packages: To ensure all the required libraries are installed. 
 XPM packages, abbreviated as xPacks, are versatile, language-neutral software packages coming from  [https://xpack-dev-tools.github.io](https://xpack-dev-tools.github.io). xPack GNU RISC-V Embedded GCC packages help in easy installation without worrying about dependent libraries. These packages will automatically update the libraries as well when the system updates happen. More details on this can be found in the above link. 
  
-#### Prerequisites for xpm 
+##### Prerequisites for xpm 
 The only prerequisite for xPack is a recent version of Node.js (>=18.0.0), as some dependencies require new features. So first checking the version available. 
 
 ```bash
@@ -74,7 +102,7 @@ xpm --version
  ![task1/images/5XpmInstallCheck.png](task1/images/5XpmInstallCheck.png)
 
 
-### Install riscv-none-elf-gcc (riscv toolchain) 
+#### Install riscv-none-elf-gcc (riscv toolchain) 
 
 This is a prebuilt toolchain taken from [https://www.npmjs.com/package/@xpack-dev-tools/riscv-none-elf-gcc](https://www.npmjs.com/package/@xpack-dev-tools/riscv-none-elf-gcc). To download it, initialize xpm and download the riscv-none-elf-gcc
  
@@ -104,7 +132,7 @@ ls -l xpacks/.bin
 ```
  ![task1/images/8FilesDownloadedFromRiscvToolchain.png](task1/images/8FilesDownloadedFromRiscvToolchain.png)
 
-### Add to path 
+#### Add to path 
 For the GCC and other binaries to be available without always calling using their path we need to add them to your shell path. The following command adds to the path:
 ```bash
 export PATH=/home/jahnavi/riscv_toolchain/xpacks/.bin:$PATH
@@ -133,7 +161,7 @@ Checking version:
 ```
 ![task1/images/11CheckingRiscvToolchainVersion.png](task1/images/11CheckingRiscvToolchainVersion.png)
 
-## Step2: Install Device Tree Compiler (DTC)
+### Step2: Install Device Tree Compiler (DTC)
 
 Adding the device tree complier dependency also. 
 
@@ -145,7 +173,7 @@ sudo dnf install -y dtc
 
 ![task1/images/12DTCInstall.png](task1/images/12DTCInstall.png)
 
-## Step3: Install spike and add to path
+### Step3: Install spike and add to path
 Spike is an open-source RISC-V Instruction Set Simulator (ISS) which is used to emulate the RISC-V programs without the requirement of physical hardware. The following commands are needed to be followed for installing spike:
 
 ```bash
@@ -184,7 +212,7 @@ spike -h
 ```
 ![task1/images/24SpikeVersionHelp.png](task1/images/24SpikeHelp.png)
 
-## Step4: Install pk and add to path
+### Step4: Install pk and add to path
 Proxy kernal or pk is the kind of operating system which enables the executions in a system without an operating system. Here since we are working on RISC-V architecture, we need to install pk which will help us to execute the programs in the system. 
 The following is the installation commands:
 
@@ -216,7 +244,7 @@ which pk
 ```
 ![task1/images/18WhichPKCommand.png](task1/images/18WhichPKCommand.png)
 
-## Step5: Sanity checks
+### Step5: Sanity checks
 Finally checking if everything is installed properly or not:
 ```bash
 which riscv-none-elf-gcc
@@ -233,21 +261,22 @@ The final folder riscv_toolchain:
 ![task1/images/21FinalFolderRiscvToolchain.png](task1/images/21FinalFolderRiscvToolchain.png)
 
 
-# Uniqueness Test
+## Uniqueness Test
 
 A program to give the 64‐bit FNV‐1a hash of username and hostname. 
 
-## Program: 
+### Program: 
 The .c program is made to take the username and hostname as input and give the hash value as output. 
 
 ![task1/files/unique_test.c](task1/files/unique_test.c)
 
-## Compilation command:
+### Compilation command:
 ```bash
 riscv-none-elf-gcc -O2 -Wall -march=rv64ima -mabi=lp64 -DUSERNAME=\"Jahnavi\" -DHOSTNAME=\"VLSILab\" unique_test.c -o unique_test
 ```
 ![task1/images/22CompailationCommand.png](task1/images/22CompailationCommand.png)
-## Running on spike with pk
+
+### Running on spike with pk
 Here, we were getting an error which was resolved when you are giving the pk path
 
 Command:
@@ -266,9 +295,9 @@ GCC_VLEN: 6
 ```
 ![images/task1/1UniquenessTest.png](task1/images/1UniquenessTest.png)
 
-# Errors encountered during the installation 
+## Errors encountered during the installation 
 
-## Building directly from source instead of prebuilt file
+### Building directly from source instead of prebuilt file
 This is a time consuming process, also too many unresolvable errors occured. one of them is given below: 
 ```bash
 git submodule update --init --recursive
@@ -279,7 +308,7 @@ fatal: Fetched in submodule path 'dejagnu', but it did not contain 935a51f3c66ec
 ```
 I tried to resolve the errors for the longest time at last switched to prebuilt tools, which are comparitively easy to install. Also I was able to find the latest version in the prebuilt tools. The latest version automatically resolves compatibility issues with spike and pk that might later occur during execution. 
 
-## Error during installation of pk
+### Error during installation of pk
 ```bash
 which pk
 /usr/bin/which: no pk in (/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/riscv64-unknown-elf/bin:/home/jahnavi/riscv_toolchain/pk/bin:/home/jahnavi/riscv_toolchain/spike/bin:/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/bin:/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/riscv64-unknown-elf/bin:/home/jahnavi/riscv_toolchain/pk/bin:/home/jahnavi/riscv_toolchain/spike/bin:/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/bin:/home/jahnavi/riscv_toolchain/pk/bin:/home/jahnavi/riscv_toolchain/spike/bin:/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/bin:/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/bin:/home/jahnavi/riscv_toolchain/spike/bin:/home/jahnavi/riscv_toolchain/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6/bin:/home/jahnavi/.local/bin:/home/jahnavi/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/var/lib/snapd/snap/bin)
@@ -288,7 +317,7 @@ The bin folder along with include and library folder was actually in pk/riscv64-
 
 *Note: this error occurred when I am initailly trying to install  https://static.dev.sifive.com/dev-tools/riscv64-unknown-elf-gcc-8.3.0-2019.08.0-x86_64-linux-centos6.tar.gz for Alma Linux. However, I switched to xpack for getting the latest version, where I prevented this error from happening by using the exact export path*
 
-## Path error for pk
+### Path error for pk
 ```bash
 spike pk ./unique_test
 terminate called after throwing an instance of 'std::runtime_error'
@@ -303,7 +332,7 @@ spike /home/jahnavi/riscv_toolchain/pk/riscv-none-elf/bin/pk ./unique_test
 
 ![task1/images/Error_CompilationPKPath.png](task1/images/Error_CompilationPKPath.png)
 
-## Compilation Error
+### Compilation Error
 ```bash
 [jahnavi@vlsilab riscv_toolchain]$ riscv-none-elf-gcc -O2 -Wall -march=rv64ima -mabi=lp64 -DUSERNAME=\"Jahnavi\" -DHOSTNAME=\"VLSILab\" unique_test.c -o unique_test
 cc1: fatal error: unique_test.c: No such file or directory
