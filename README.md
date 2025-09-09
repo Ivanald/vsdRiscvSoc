@@ -1,6 +1,8 @@
 # vsdRiscvSoc
 All the projects/assignments done as part of India RISC-V Chip Tapeout workshop conducted by VSD. 
 
+Note: This project has been abandoned since I came out of the workshop due to unfair evaluation. The following two tasks are available. 
+
 ## Table of Contents
 
 * [Task1 - RISC-V Toolchain Setup Tasks & Uniqueness Test](#task1---risc-v-toolchain-setup-tasks--uniqueness-test)
@@ -16,16 +18,16 @@ All the projects/assignments done as part of India RISC-V Chip Tapeout workshop 
 	    * [Step5: Sanity checks](#step5-sanity-checks)
 	* [Uniqueness Test](#uniqueness-test)
 	* [Errors encountered during the installation](#errors-encountered-during-the-installation)
-   * [Task 2 - Prove Your Local RISC-V Setup (Run, Disassemble,Decode)](task2/#task-2---prove-your-local-risc-v-setup-run-disassembledecode)
-   		* [End Goal](task2/#end-goal)
-		* [Spike Version used](task2/#spike-version-used)
-		* [Uniqueness mechanism](task2/#uniqueness-mechanism)
-		* [Programs implemented](task2/#programs-implemented)
-		    * [Factorial](task2/#factorial)
-		    * [Max Array](task2/#max-array)
-		    * [Bitops](task2/#bitops)
-		    * [Bubble sort](task2/#bubble-sort)
-			* [Final folder contents](task2/#after-executing-all-the-above-programs-your-final-folder-will-look-like-this)
+ * [Task 2 - Prove Your Local RISC-V Setup (Run, Disassemble,Decode)](task2/#task-2---prove-your-local-risc-v-setup-run-disassembledecode)
+     * [End Goal](task2/#end-goal)
+	 * [Spike Version used](task2/#spike-version-used)
+	 * [Uniqueness mechanism](task2/#uniqueness-mechanism)
+	 * [Programs implemented](task2/#programs-implemented)
+	     * [Factorial](task2/#factorial)
+		 * [Max Array](task2/#max-array)
+		 * [Bitops](task2/#bitops)
+		 * [Bubble sort](task2/#bubble-sort)
+		 * [Final folder contents](task2/#after-executing-all-the-above-programs-your-final-folder-will-look-like-this)
 
   
 
